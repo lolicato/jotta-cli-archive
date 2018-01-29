@@ -4,7 +4,7 @@
 SAVEIFS=IFS
 
 # Overwrite your default IFS
-# It as allow to use name with space 
+# It allows to use name with space 
 # in your file and/or directory
 IFS=$(echo -en "\n\b")
 
@@ -34,7 +34,6 @@ for i in `find $FOLDER  -type d \( ! -name . \) -exec bash -c "cd '{}' && pwd" \
 if [ -d "$i" ]; then
 	if [[ `basename $i` != $FOLDER ]]; then
 	cnt=$((cnt+1))
-	echo $WHERE/"${array[$cnt]}"
 	for filename in $i/*  ; do
 		jotta-cli archive $filename --remote `printf $WHERE/"${array[$cnt]}"` 
 
