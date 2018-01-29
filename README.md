@@ -1,2 +1,4 @@
 # jotta-cli-archive
-Move hole Folder structures to the Archive with Jottacloud 
+Move hole Folder structure to the Archive with Jottacloud 
+
+./jotta-cli-archive.sh input_folder remote_Jottacloud_folder
