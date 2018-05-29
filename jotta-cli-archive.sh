@@ -26,7 +26,7 @@ cnt=-1
 
 # It finds the tree structure of the mother folder
 # with the absolute path and iterate over them
-for i in `find $FOLDER  -type d \( ! -name . \) -exec bash -c "cd '{}' && pwd" \;` ;do
+for i in `find $FOLDER  -type d \( ! -name . \) -exec bash -c 'cd "{}" && pwd' \;` ;do
 
 # If the iterating item is a folder and it has a 
 # different name then the input folder, iterate
@@ -34,11 +34,18 @@ for i in `find $FOLDER  -type d \( ! -name . \) -exec bash -c "cd '{}' && pwd" \
 if [ -d "$i" ]; then
 	if [[ `basename $i` != $FOLDER ]]; then
 	cnt=$((cnt+1))
-	for filename in $i/*  ; do
-		jotta-cli archive $filename --remote `printf $WHERE/"${array[$cnt]}"` 
-
-done
-fi
+		for filename in $i/*  ; do
+			filename1=$(basename "$filename")
+			filename2="${filename1%.*}"
+			extension="${filename##*.}"
+			if [[ ! $extension =~ .*/.* ]]; then
+				echo "Processing File : $filename2"
+				cp $filename /tmp/$filename1
+				jotta-cli archive /tmp/$filename1  --remote `printf $WHERE/"${array[$cnt]}"`
+				rm  /tmp/$filename1
+			fi
+		done
+	fi
 fi
 done
 
